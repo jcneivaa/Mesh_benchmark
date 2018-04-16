@@ -20,6 +20,7 @@ class Boid {
   HashMap<Integer,VertexList> vvrepresentation;
   ArrayList<Vector> vlist;// Shape vertex
   ArrayList<IntList> vvlist; //Lists for Vertex-Vertex representation
+  PShape edge;
 
 
 
@@ -35,6 +36,17 @@ class Boid {
     avatarColor = color(255, 255, 0);
     position = new Vector();
     position.set(inPos);
+    
+    vlist = new ArrayList<Vector>();
+    vvlist = new ArrayList<IntList>();
+    vvrepresentation = new HashMap<Integer,VertexList>();
+    
+    createVertex();
+    createVVRepresentation();
+    
+    edge= createShape();
+    edge= drawVVRetained();
+    
     node = new Node(scene) {
       // Note that within visit() geometry is defined at the
       // node local coordinate system.
@@ -169,44 +181,10 @@ class Boid {
     // uncomment to draw boid axes
     //scene.drawAxes(10);
 
-    int kind = TRIANGLES;
-    strokeWeight(2);
-    stroke(color(0, 255, 0));
-    fill(color(255, 0, 0, 125));
 
-    // visual modes
-    switch(mode) {
-    case 1:
-      noFill();
-      break;
-    case 2:
-      noStroke();
-      break;
-    case 3:
-      strokeWeight(3);
-      kind = POINTS;
-      break;
-    }
+    //drawVVImmediate();
 
-    // highlight boids under the mouse
-    if (node.track(mouseX, mouseY)) {
-      noStroke();
-      fill(grabsMouseColor);
-    }
-
-    // highlight avatar
-    if (node == avatar) {
-      noStroke();
-      fill(avatarColor);
-    }
-
-    vlist = new ArrayList<Vector>();
-    vvlist = new ArrayList<IntList>();
-    vvrepresentation = new HashMap<Integer,VertexList>();
-    
-    createVertex();
-    createVVRepresentation();
-    drawVVImmediate();
+    shape(edge);
 
     //draw boid
 /*    
@@ -254,7 +232,9 @@ class Boid {
   }
   
   void drawVVImmediate(){
-     beginShape(LINES);
+    stroke(color(0, 255, 0));
+    fill(color(255, 0, 0, 125)); 
+    beginShape(LINES);
      for (int x=0;x<vlist.size();++x){
       Vector vaux = new Vector();
       IntList laux = new IntList();
@@ -270,5 +250,30 @@ class Boid {
      
      endShape();
     
+  }
+  
+  PShape drawVVRetained(){
+      
+    PShape aux;
+    aux = createShape();
+    aux.beginShape(LINES);
+    aux.stroke(color(0, 255, 0));
+    aux.fill(color(255, 0, 0, 125));
+     for (int x=0;x<vlist.size();++x){
+      Vector vaux = new Vector();
+      IntList laux = new IntList();
+      vaux = vvrepresentation.get(x).getVertex();
+      laux = vvrepresentation.get(x).getList();
+      
+      for (int y=0;y<laux.size();++y){
+
+       aux.vertex(vaux.x(),vaux.y(),vaux.z());
+       aux.vertex(vvrepresentation.get(y).getVertex().x(),vvrepresentation.get(y).getVertex().y(),vvrepresentation.get(y).getVertex().z());
+      }
+
+
+     }
+     aux.endShape();     
+     return aux;
   }
 }
