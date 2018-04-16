@@ -15,18 +15,21 @@ class Boid {
   float t = 0;
 
 
-//Start of my code
+//Shalalalalalalalala
   
   HashMap<Integer,VertexList> vvrepresentation;
+  HashMap<Integer,VertexList> fvrepresentation;
   ArrayList<Vector> vlist;// Shape vertex
   ArrayList<IntList> vvlist; //Lists for Vertex-Vertex representation
+  ArrayList<IntList> fvlist; //Lists of faces surrounding a vertex
+  ArrayList<IntList> flist; //List of vertex in a face
   PShape edge;
+  PShape face;
 
 
 
 
-
-//End of my code
+//Shalalalalalalalala
 
 
 
@@ -36,7 +39,8 @@ class Boid {
     avatarColor = color(255, 255, 0);
     position = new Vector();
     position.set(inPos);
-    
+//Start of representation    
+    //Set of parameters for Vertex-Vertex representation
     vlist = new ArrayList<Vector>();
     vvlist = new ArrayList<IntList>();
     vvrepresentation = new HashMap<Integer,VertexList>();
@@ -47,6 +51,18 @@ class Boid {
     edge= createShape();
     edge= drawVVRetained();
     
+    //Set of parameters for Face-Vertex Representation
+    
+    flist = new ArrayList<IntList>();
+    fvlist = new ArrayList<IntList>();
+    fvrepresentation = new HashMap<Integer,VertexList>();
+    
+    createFace();
+    createFVRepresentation();
+    
+    
+    
+//End of representation    
     node = new Node(scene) {
       // Note that within visit() geometry is defined at the
       // node local coordinate system.
@@ -183,29 +199,12 @@ class Boid {
 
 
     //drawVVImmediate();
+    drawFVImmediate();
 
-    shape(edge);
+    //shape(edge);
 
     //draw boid
-/*    
-    beginShape(kind);
-    vertex(3 * sc, 0, 0);
-    vertex(-3 * sc, 2 * sc, 0);
-    vertex(-3 * sc, -2 * sc, 0);
 
-    vertex(3 * sc, 0, 0);
-    vertex(-3 * sc, 2 * sc, 0);
-    vertex(-3 * sc, 0, 2 * sc);
-
-    vertex(3 * sc, 0, 0);
-    vertex(-3 * sc, 0, 2 * sc);
-    vertex(-3 * sc, -2 * sc, 0);
-
-    vertex(-3 * sc, 0, 2 * sc);
-    vertex(-3 * sc, 2 * sc, 0);
-    vertex(-3 * sc, -2 * sc, 0);
-    endShape();
-*/
     popStyle();
 
   }
@@ -217,6 +216,13 @@ class Boid {
       vlist.add(new Vector(-3 * sc, 0, 2 * sc));  
   }
   
+  void createFace(){
+     flist.add(new IntList(0,1,2));
+     flist.add(new IntList(0,1,3));
+     flist.add(new IntList(0,2,3));
+     flist.add(new IntList(1,2,3));
+  }
+  
   void createVVList(){
      vvlist.add(new IntList(1,2,3));
      vvlist.add(new IntList(0,2,3));
@@ -224,11 +230,25 @@ class Boid {
      vvlist.add(new IntList(1,2,0));
   }
  
+ void createFVList(){
+     fvlist.add(new IntList(0,1,2));
+     fvlist.add(new IntList(0,1,3));
+     fvlist.add(new IntList(0,2,3));
+     fvlist.add(new IntList(1,2,3));
+ }
+ 
   void createVVRepresentation(){
      createVVList();
      for (int x=0;x<vlist.size();++x){
         vvrepresentation.put(x,new VertexList(vlist.get(x),vvlist.get(x))); 
      }
+  }
+  
+  void createFVRepresentation(){
+    createFVList();  
+    for (int x=0;x<vlist.size();++x){
+        fvrepresentation.put(x,new VertexList(vlist.get(x),fvlist.get(x))); 
+    }
   }
   
   void drawVVImmediate(){
@@ -249,6 +269,22 @@ class Boid {
      }
      
      endShape();
+    
+  }
+  
+  void drawFVImmediate(){
+    stroke(color(0, 255, 0));
+    fill(color(255, 0, 0, 125)); 
+    beginShape(TRIANGLES);
+     for (int x=0;x<flist.size();++x){
+       for(int y=0;y<3;++y){
+         vertex(fvrepresentation.get(flist.get(x).get(y)).getVertex().x(),fvrepresentation.get(flist.get(x).get(y)).getVertex().y(),fvrepresentation.get(flist.get(x).get(y)).getVertex().z());
+       }
+      }
+     
+     
+     endShape();
+    
     
   }
   
