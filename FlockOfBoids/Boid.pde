@@ -16,7 +16,6 @@ class Boid {
 
 
 //Shalalalalalalalala
-  
   HashMap<Integer,VertexList> vvrepresentation;
   HashMap<Integer,VertexList> fvrepresentation;
   ArrayList<Vector> vlist;// Shape vertex
@@ -199,13 +198,21 @@ class Boid {
     //scene.drawAxes(10);
 
 
-    //drawVVImmediate();
-    //drawFVImmediate();
+    //Draw boid
+  if(representation==0){
+   if(mode==0){
+      drawVVImmediate();
+   }else{
+      shape(edge); 
+   }
+  }else{
+   if(mode==0){
+     drawFVImmediate();
+   }else{
+     shape(face); 
+   }
+  }
 
-    //shape(edge);
-    shape(face);
-
-    //draw boid
 
     popStyle();
 

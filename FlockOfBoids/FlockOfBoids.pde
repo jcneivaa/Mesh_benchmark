@@ -11,7 +11,8 @@
  * Press ' ' to switch between the different eye modes.
  * Press 'a' to toggle (start/stop) animation.
  * Press 'p' to print the current frame rate.
- * Press 'm' to change the mesh visual mode.
+ * Press 'm' to change the mesh render mode.
+ * Press 'r' to change the representation kind.
  * Press 't' to shift timers: sequential and parallel.
  * Press 'v' to toggle boids' wall skipping.
  * Press 's' to call scene.fitBallInterpolation().
@@ -29,12 +30,16 @@ int flockHeight = 720;
 int flockDepth = 600;
 boolean avoidWalls = true;
 
-// visual modes
-// 0. Faces and edges
-// 1. Wireframe (only edges)
-// 2. Only faces
-// 3. Only points
+// render modes
+// 0. Immediate
+// 1. Retained
+
 int mode;
+
+// Kinds of representations
+// 0. Vertex-Vertex
+// 1. Face-Vertex
+int representation;
 
 int initBoidNum = 900; // amount of boids to start the program with
 ArrayList<Boid> flock;
@@ -108,7 +113,10 @@ void keyPressed() {
     avoidWalls = !avoidWalls;
     break;
   case 'm':
-    mode = mode < 3 ? mode+1 : 0;
+    mode = mode < 1 ? mode+1 : 0;
+    break;
+  case 'r':
+    representation = representation < 1 ? representation+1 : 0;
     break;
   case ' ':
     if (scene.eye().reference() != null) {
