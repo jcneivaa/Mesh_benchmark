@@ -60,7 +60,8 @@ class Boid {
     createFace();
     createFVRepresentation();
     
-    
+    face= createShape();
+    face= drawFVRetained();
     
 //End of representation    
     node = new Node(scene) {
@@ -199,9 +200,10 @@ class Boid {
 
 
     //drawVVImmediate();
-    drawFVImmediate();
+    //drawFVImmediate();
 
     //shape(edge);
+    shape(face);
 
     //draw boid
 
@@ -309,6 +311,22 @@ class Boid {
 
 
      }
+     aux.endShape();     
+     return aux;
+  }
+  
+  PShape drawFVRetained(){
+      
+    PShape aux;
+    aux = createShape();
+    aux.beginShape(TRIANGLES);
+    aux.stroke(color(0, 255, 0));
+    aux.fill(color(255, 0, 0, 125));
+      for (int x=0;x<flist.size();++x){
+       for(int y=0;y<3;++y){
+         aux.vertex(fvrepresentation.get(flist.get(x).get(y)).getVertex().x(),fvrepresentation.get(flist.get(x).get(y)).getVertex().y(),fvrepresentation.get(flist.get(x).get(y)).getVertex().z());
+       }
+      }
      aux.endShape();     
      return aux;
   }
