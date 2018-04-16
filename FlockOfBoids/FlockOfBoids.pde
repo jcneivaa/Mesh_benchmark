@@ -31,8 +31,8 @@ int flockDepth = 600;
 boolean avoidWalls = true;
 
 // render modes
-// 0. Immediate
-// 1. Retained
+// 0. Immediate - Is representing on blue color
+// 1. Retained - Is representing on purple color
 
 int mode;
 

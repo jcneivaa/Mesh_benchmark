@@ -261,8 +261,8 @@ class Boid {
   }
   
   void drawVVImmediate(){
-    stroke(color(0, 255, 0));
-    fill(color(255, 0, 0, 125)); 
+    stroke(color(0,128,175));
+    fill(color(0,128,175)); 
     beginShape(LINES);
      for (int x=0;x<vlist.size();++x){
       Vector vaux = new Vector();
@@ -282,8 +282,8 @@ class Boid {
   }
   
   void drawFVImmediate(){
-    stroke(color(0, 255, 0));
-    fill(color(255, 0, 0, 125)); 
+    stroke(color(0,128,175));
+    fill(color(0,128,175)); 
     beginShape(TRIANGLES);
      for (int x=0;x<flist.size();++x){
        for(int y=0;y<3;++y){
@@ -302,8 +302,8 @@ class Boid {
     PShape aux;
     aux = createShape();
     aux.beginShape(LINES);
-    aux.stroke(color(0, 255, 0));
-    aux.fill(color(255, 0, 0, 125));
+    aux.stroke(color(129,84,202));
+    aux.fill(color(129,84,202));
      for (int x=0;x<vlist.size();++x){
       Vector vaux = new Vector();
       IntList laux = new IntList();
@@ -327,8 +327,8 @@ class Boid {
     PShape aux;
     aux = createShape();
     aux.beginShape(TRIANGLES);
-    aux.stroke(color(0, 255, 0));
-    aux.fill(color(255, 0, 0, 125));
+    aux.stroke(color(129,84,202));
+    aux.fill(color(129,84,202));
       for (int x=0;x<flist.size();++x){
        for(int y=0;y<3;++y){
          aux.vertex(fvrepresentation.get(flist.get(x).get(y)).getVertex().x(),fvrepresentation.get(flist.get(x).get(y)).getVertex().y(),fvrepresentation.get(flist.get(x).get(y)).getVertex().z());
