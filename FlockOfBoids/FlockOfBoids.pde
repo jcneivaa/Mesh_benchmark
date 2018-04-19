@@ -1,3 +1,4 @@
+
 /**
  * Flock of Boids
  * by Jean Pierre Charalambos.
@@ -23,6 +24,7 @@ import frames.input.event.*;
 import frames.primitives.*;
 import frames.core.*;
 import frames.processing.*;
+import grafica.*;
 
 Scene scene;
 int flockWidth = 1280;
@@ -46,6 +48,8 @@ ArrayList<Boid> flock;
 Node avatar;
 boolean animate = true;
 
+public GPlot plot;
+
 void setup() {
   size(1000, 800, P3D);
   scene = new Scene(this);
@@ -58,9 +62,20 @@ void setup() {
   scene.setDefaultGrabber(eye);
   scene.fitBall();
   // create and fill the list of boids
+  
+  plot = new GPlot(this);
+  plot.setPos(this.width-350, height - 200);
+  plot.setDim(250, 100);
+  plot.getTitle().setText("FPS");
+  plot.getXAxis().getAxisLabel().setText("Seconds");
+  plot.getYAxis().getAxisLabel().setText("Frames");
+  
+  
   flock = new ArrayList();
   for (int i = 0; i < initBoidNum; i++)
     flock.add(new Boid(new Vector(flockWidth / 2, flockHeight / 2, flockDepth / 2)));
+    
+  
 }
 
 void draw() {
@@ -70,7 +85,37 @@ void draw() {
   walls();
   // Calls Node.visit() on all scene nodes.
   scene.traverse();
+  camera(); //resets viewport to 2D equivalent
+  noLights();
+  stroke(255);
+  noFill();
+  fill(255);
+  text("FPS: " + frameRate, 10, 20);
+  
+
+  plot.addPoint(frameCount/frameRate, frameRate);
+  
+
+  // Reset the points if the user pressed the space bar
+  /*
+  if (keyPressed && key == ' ') {
+    plot.setPoints(new GPointsArray());
+  }*/
+
+  // Draw the plot 
+  plot.beginDraw();
+  plot.drawBackground();
+  plot.drawBox();
+  plot.drawXAxis();
+  plot.drawYAxis();
+  plot.drawTitle();
+  plot.drawGridLines(GPlot.BOTH);
+  plot.drawLines();
+  //plot.drawPoints();
+  plot.endDraw();
 }
+
+
 
 void walls() {
   pushStyle();

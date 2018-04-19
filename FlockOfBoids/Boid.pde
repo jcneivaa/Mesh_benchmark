@@ -213,6 +213,12 @@ class Boid {
    }
   }
 
+  //drawVVImmediate();
+  //shape(edge); 
+  
+  //drawFVImmediate();
+  //shape(face); 
+
 
     popStyle();
 
