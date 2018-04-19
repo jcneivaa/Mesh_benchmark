@@ -85,7 +85,8 @@ void draw() {
   walls();
   // Calls Node.visit() on all scene nodes.
   scene.traverse();
-  camera(); //resets viewport to 2D equivalent
+  //camera(); //resets viewport to 2D equivalent
+  scene.beginScreenCoordinates();
   noLights();
   stroke(255);
   noFill();
@@ -113,6 +114,7 @@ void draw() {
   plot.drawLines();
   //plot.drawPoints();
   plot.endDraw();
+  scene.endScreenCoordinates();
 }
 
 
